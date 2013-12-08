@@ -1,0 +1,4 @@
+template
+========
+
+TEMPLATE FOR ARCHITECTURE
