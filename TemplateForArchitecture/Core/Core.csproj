@@ -39,14 +39,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Entities\Entity`1.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="Entity`1.cs" />
     <Compile Include="Exceptions\RepositoryException.cs" />
     <Compile Include="InterfaceRepository\IRepository.cs" />
     <Compile Include="InterfaceRepository\IRepository`2.cs" />
     <Compile Include="IRepositoryFactory.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -73,19 +73,9 @@ namespace SqlServer
             }
         }
 
-        #endregion
-
-        #region [UnitOfWork's members]
-
-        public bool SetNewTransaction()
+        public void PreSave()
         {
-            if (!_isTransactionActive && !_disposed)
-            {
-                _transaction = _context.Database.BeginTransaction();
-                _isTransactionActive = true;
-                return true;
-            }
-            return false;
+            _context.SaveChanges();
         }
 
         #endregion

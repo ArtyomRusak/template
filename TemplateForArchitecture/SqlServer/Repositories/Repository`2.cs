@@ -7,7 +7,7 @@ using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using AR.EPAM.Infrastructure.Guard;
-using Core.Entities;
+using Core;
 using Core.Exceptions;
 using Core.InterfaceRepository;
 
