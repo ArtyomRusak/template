@@ -16,7 +16,7 @@ namespace SqlServer
         private bool _disposed;
         private bool _isTransactionActive;
         private readonly DbContext _context;
-        private DbContextTransaction _transaction;
+        private readonly DbContextTransaction _transaction;
 
         #endregion
 
@@ -27,6 +27,7 @@ namespace SqlServer
         {
             _context = context;
             _transaction = _context.Database.BeginTransaction();
+            _isTransactionActive = true;
         }
 
         #endregion
@@ -61,15 +62,36 @@ namespace SqlServer
             catch (Exception e)
             {
                 _transaction.Rollback();
+                _isTransactionActive = false;
                 throw new RepositoryException(e.Message);
             }
         }
 
         public void Rollback()
         {
-            if (_isTransactionActive && !_disposed)
+            if (_isTransactionActive)
             {
-                _transaction.Rollback();
+                try
+                {
+                    _context.SaveChanges();
+                    _transaction.Commit();
+                    _isTransactionActive = false;
+                }
+                catch (Exception e)
+                {
+                    _transaction.Rollback();
+                    _isTransactionActive = false;
+
+                    _context.Dispose();
+                    _disposed = true;
+
+                    throw new RepositoryException(e);
+                }
+            }
+            if (!_disposed)
+            {
+                _context.Dispose();
+                _disposed = true;
             }
         }
 
