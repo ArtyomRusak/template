@@ -37,6 +37,23 @@ namespace SqlServer
 
         public void Dispose()
         {
+            if (_isTransactionActive)
+            {
+                try
+                {
+                    _context.SaveChanges();
+                    _transaction.Commit();
+                    _isTransactionActive = false;
+                }
+                catch (Exception e)
+                {
+                    _transaction.Rollback();
+                    _context.Dispose();
+                    _disposed = true;
+                    _isTransactionActive = false;
+                    throw new RepositoryException(e);
+                }
+            }
             if (!_disposed)
             {
                 _context.Dispose();
@@ -45,6 +62,7 @@ namespace SqlServer
         }
 
         #endregion
+
 
         #region Implementation of IUnitOfWork
 
